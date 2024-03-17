@@ -4,6 +4,8 @@ import (
 	"log/slog"
 	"os"
 
+	chi "github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 	"github.com/kirakulakov/url-shortener-v2/internal/config"
 	"github.com/kirakulakov/url-shortener-v2/internal/lib/logger/sl"
 	"github.com/kirakulakov/url-shortener-v2/internal/storage/sqlite"
@@ -32,9 +34,12 @@ func main() {
 
 	_ = storage
 
-	// TODO: init storage: sqllite
+	router := chi.NewRouter()
 
-	// TODO: init router: chi, "chi-render"
+	// middleware
+	router.Use(middleware.RequestID)
+	router.Use(middleware.RealIP)
+	router.Use(middleware.Logger)
 
 	// TODO: run server
 
